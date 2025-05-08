@@ -6,6 +6,11 @@ on:
       version:
         description: 'Version to publish (e.g., 1.0.0)'
         required: true
+      is_first_publish:
+        description: 'Is this the first time publishing the package?'
+        required: true
+        type: boolean
+        default: false
 
 jobs:
   publish:
@@ -17,9 +22,23 @@ jobs:
       - name: Install composer dependencies
         run: composer install --no-dev --no-progress --no-interaction
 
-      - name: Update Packagist
+      - name: First-time package submission to Packagist
+        if: ${{ github.event.inputs.is_first_publish == 'true' }}
         run: |
-          echo "Publishing version ${{ github.event.inputs.version }}"
-          curl -XPOST -H "content-type:application/json" \
-          "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}" \
-          -d '{"repository":{"url":"https://github.com/changerawr/php"}}'
+          echo "Submitting package for the first time to Packagist"
+          curl -X POST \
+            -H "content-type:application/json" \
+            -d '{"repository":{"url":"https://github.com/changerawr/php"}}' \
+            "https://packagist.org/api/submit-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}"
+          echo "Package submitted. Please check Packagist for confirmation."
+          echo "Note: It might take a few minutes for Packagist to process the submission."
+
+      - name: Update existing package on Packagist
+        if: ${{ github.event.inputs.is_first_publish == 'false' }}
+        run: |
+          echo "Updating existing package for version ${{ github.event.inputs.version }}"
+          curl -X POST \
+            -H "content-type:application/json" \
+            -d '{"repository":{"url":"https://github.com/changerawr/php"}}' \
+            "https://packagist.org/api/update-package?username=${{ secrets.PACKAGIST_USERNAME }}&apiToken=${{ secrets.PACKAGIST_API_TOKEN }}"
+          echo "Package update triggered. Please check Packagist for confirmation."
