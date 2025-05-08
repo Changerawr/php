@@ -1,0 +1,44 @@
+# Composer
+/vendor/
+composer.phar
+composer.lock
+
+# PHPUnit
+.phpunit.result.cache
+/phpunit.xml.dist
+
+# IDE files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.project
+.settings/
+.buildpath
+
+# PHP-CS-Fixer
+.php-cs-fixer.cache
+
+# PHPStan
+phpstan.neon
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.backup
+
+# Local development files
+/dev/
+/local/
+*.local.php
+
+# Cache and logs
+/cache/
+/logs/
+*.log
+
+# Test coverage
+/coverage/
