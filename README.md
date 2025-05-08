@@ -315,4 +315,4 @@ This SDK is licensed under the MIT License. See the LICENSE file for details.
 
 ## Support
 
-For support with the PHP SDK, please check the [GitHub repository issues](https://github.com/changerawr/php-sdk/issues) or refer to your self-hosted Changerawr instance documentation.
+For support with the PHP SDK, please check the [GitHub repository issues](https://github.com/changerawr/php/issues) or refer to your self-hosted Changerawr instance documentation.
